@@ -3,9 +3,42 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/index.css" />
     <title>Tests</title>
   </head>
   <body>
-    <h1>Hello</h1>
+    <aside class="aside _opened">
+      <div class="aside__top _hidden">
+        <button class="aside__top-btn">
+          <img src="./icons/bar.svg" alt="menu" />
+        </button>
+      </div>
+      <div class="aside__top">
+        <button class="aside__top-btn"><-</button>
+        <div class="title aside__top-title">ТЕСТЫ</div>
+      </div>
+      <div class="aside__divider"></div>
+      <div class="aside__content">
+        <ul class="aside__list">
+          <!-- <li class="aside__list-item" data-id="1">test</li>
+          <li class="aside__list-item" data-id="2">test</li>
+          <li class="aside__list-item" data-id="3">test</li>
+          <li class="aside__list-item" data-id="4">test</li> -->
+        </ul>
+      </div>
+    </aside>
+    <main class="main">
+      <div class="main__initial">
+        <span class="main__intital-text">Выберите тест из списка</span>
+      </div>
+    </main>
+    <script src="https://kit.fontawesome.com/57560f05d6.js" crossorigin="anonymous"></script>
+    <script src="./js/index.js"></script>
   </body>
 </html>

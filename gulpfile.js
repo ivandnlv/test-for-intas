@@ -1,9 +1,10 @@
+require = require('esm')(module); // Это позволит поддерживать динамический импорт
+
 const gulp = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
 const typescript = require('gulp-typescript');
 const babel = require('gulp-babel');
 const browserSync = require('browser-sync').create();
-const nodemon = require('gulp-nodemon');
 
 const tsProject = typescript.createProject('tsconfig.json');
 
@@ -31,12 +32,18 @@ function scripts(done) {
   done();
 }
 
-function server(done) {
-  nodemon({
-    script: 'dist/js/index.js', // Assuming your compiled TypeScript entry file is in dist/js/index.js
-    watch: 'dist/js', // Watch the compiled JS files for changes
-  });
+function icons() {
+  return gulp
+    .src('src/icons/**/*.{png,svg}')
+    .pipe(gulp.dest('dist/icons'))
+    .pipe(browserSync.stream()); // Reload the browser when icon files change
+}
 
+function images() {
+  return gulp.src('src/img/**/*.{png,jpg}').pipe(gulp.dest('dist/img')).pipe(browserSync.stream()); // Reload the browser when image files change
+}
+
+function server(done) {
   browserSync.init({
     server: {
       baseDir: './dist', // Serve files from the dist directory
@@ -53,6 +60,11 @@ function watch() {
   gulp.watch('src/*.html', html);
   gulp.watch('src/scss/**/*.scss', styles);
   gulp.watch('src/ts/**/*.ts', scripts);
+  gulp.watch('src/icons/**/*.{png,svg}', icons);
+  gulp.watch('src/img/**/*.{png,jpg}', images);
 }
 
-exports.default = gulp.series(gulp.parallel(html, styles, scripts), gulp.parallel(server, watch));
+exports.default = gulp.series(
+  gulp.parallel(html, styles, scripts, icons, images),
+  gulp.parallel(server, watch),
+);

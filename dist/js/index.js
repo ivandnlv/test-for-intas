@@ -122,3 +122,16 @@ var addListenersToTitles = function addListenersToTitles() {
     });
   });
 };
+var renderQuestion = function renderQuestion(question) {
+  var questionContainer = document.createElement('div');
+  questionContainer.classList.add('main-started__form-question');
+  questionContainer.innerHTML = "\n                 <div class=\"main-started__form-question__title\">".concat(question.text, "</div>\n                <div class=\"main-started__form-question__wrapper\">\n                  \n               </div>\n  ");
+  var wrapper = questionContainer.querySelector('.main-started__form-question__wrapper');
+  question.variants.forEach(function (answer, i) {
+    var variant = document.createElement('div');
+    variant.classList.add('.main-started__form-question__answer');
+    variant.innerHTML = "\n      <input type=\"radio\" value=\"".concat(i, "\" name=\"question\" id=\"question").concat(question.id, "answer").concat(i + 1, "\" />\n      <label for=\"question").concat(question.id, "answer").concat(i + 1, "\">").concat(answer, "</label>\n    ");
+    wrapper.append(variant);
+  });
+  return questionContainer;
+};

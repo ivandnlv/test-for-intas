@@ -1,12 +1,6 @@
-require = require('esm')(module); // Это позволит поддерживать динамический импорт
-
 const gulp = require('gulp');
 const sass = require('gulp-sass')(require('sass'));
-const typescript = require('gulp-typescript');
-const babel = require('gulp-babel');
 const browserSync = require('browser-sync').create();
-
-const tsProject = typescript.createProject('tsconfig.json');
 
 function html(done) {
   gulp.src('src/*.html').pipe(gulp.dest('dist')).pipe(browserSync.stream()); // Reload the browser when HTML changes
@@ -15,20 +9,6 @@ function html(done) {
 
 function styles(done) {
   gulp.src('src/scss/*.scss').pipe(sass()).pipe(gulp.dest('dist/css')).pipe(browserSync.stream()); // Reload the browser when CSS changes
-  done();
-}
-
-function scripts(done) {
-  tsProject
-    .src()
-    .pipe(tsProject())
-    .pipe(
-      babel({
-        presets: ['@babel/env'],
-      }),
-    )
-    .pipe(gulp.dest('dist/js'))
-    .pipe(browserSync.stream()); // Reload the browser when JS changes
   done();
 }
 
@@ -59,12 +39,11 @@ function server(done) {
 function watch() {
   gulp.watch('src/*.html', html);
   gulp.watch('src/scss/**/*.scss', styles);
-  gulp.watch('src/ts/**/*.ts', scripts);
   gulp.watch('src/icons/**/*.{png,svg}', icons);
   gulp.watch('src/img/**/*.{png,jpg}', images);
 }
 
 exports.default = gulp.series(
-  gulp.parallel(html, styles, scripts, icons, images),
+  gulp.parallel(html, styles, icons, images),
   gulp.parallel(server, watch),
 );

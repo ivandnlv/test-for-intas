@@ -24,37 +24,37 @@
           <button class="aside__top-btn"><-</button>
           <div class="title aside__top-title">ТЕСТЫ</div>
         </div>
-        <div class="divider aside__divider"></div>
+        <div class="aside__divider"></div>
         <div class="aside__content">
           <ul class="aside__list">
-            <li class="aside__list-item" data-id="1">test</li>
+            <!-- <li class="aside__list-item" data-id="1">test</li>
             <li class="aside__list-item" data-id="2">test</li>
             <li class="aside__list-item" data-id="3">test</li>
-            <li class="aside__list-item" data-id="4">test</li>
+            <li class="aside__list-item" data-id="4">test</li> -->
           </ul>
         </div>
       </aside>
       <main class="main">
         <!-- <div class="main__wrapper main-initial">
-          <span class="main__intital-text">Выберите тест из списка</span>
-        </div> -->
+            <span class="main__intital-text">Выберите тест из списка</span>
+          </div> -->
         <!-- <div class="main__wrapper main-selected">
-          <header class="main__header">
-            <span class="main__header-subtitle">Описание</span>
-          </header>
-          <div class="divider main-selected__divider"></div>
-          <div class="main-selected__test">
-            <p class="main-selected__test-description">
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos placeat quisquam
-              consequatur repudiandae repellendus possimus, cupiditate molestias officia ab?
-              Accusantium.
-            </p>
-            <div class="main-selected__test-btns">
-              <button class="btn main-selected__test-btn">Начать</button>
-              <button class="btn outlined main-selected__test-btn">Отмена</button>
+            <header class="main__header">
+              <span class="main__header-subtitle">Описание</span>
+            </header>
+            <div class="divider main-selected__divider"></div>
+            <div class="main-selected__test">
+              <p class="main-selected__test-description">
+                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eos placeat quisquam
+                consequatur repudiandae repellendus possimus, cupiditate molestias officia ab?
+                Accusantium.
+              </p>
+              <div class="main-selected__test-btns">
+                <button class="btn main-selected__test-btn">Начать</button>
+                <button class="btn outlined main-selected__test-btn">Отмена</button>
+              </div>
             </div>
-          </div>
-        </div> -->
+          </div> -->
         <div class="main__wrapper main-started">
           <header class="main__header">
             <span class="main__header-subtitle">Описание</span>
@@ -66,10 +66,38 @@
             </div>
           </header>
           <div class="divider"></div>
+          <div class="main-started__content">
+            <form action="#" class="main-started__form">
+              <div class="main-started__form-question">
+                <div class="main-started__form-question__title">Вопрос 1</div>
+                <div class="main-started__form-question__wrapper">
+                  <div class="main-started__form-question__answer">
+                    <input type="radio" value="0" name="question" id="question1answer1" />
+                    <label for="question1answer1">Ответ 1</label>
+                  </div>
+                  <div class="main-started__form-question__answer">
+                    <input type="radio" value="1" name="question" id="question1answer2" />
+                    <label for="question1answer2">Ответ 2</label>
+                  </div>
+                  <div class="main-started__form-question__answer">
+                    <input type="radio" value="2" name="question" id="question1answer3" />
+                    <label for="question1answer3">Ответ 3</label>
+                  </div>
+                  <div class="main-started__form-question__answer">
+                    <input type="radio" value="3" name="question" id="question1answer4" />
+                    <label for="question1answer4">Ответ 4</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+              <button class="btn outlined red">Завершить</button>
+            </form>
+          </div>
         </div>
       </main>
     </div>
     <script src="https://kit.fontawesome.com/57560f05d6.js" crossorigin="anonymous"></script>
-    <!-- <script src="./js/index.js"></script> -->
+    <script src="./js/index.js"></script>
   </body>
 </html>

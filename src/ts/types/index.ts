@@ -1,4 +1,4 @@
-interface IQuestion {
+export interface IQuestion {
   id: number;
   text: string;
   variants: string[];

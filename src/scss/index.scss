@@ -55,6 +55,18 @@ body {
     border: 1px solid #707070;
     transition: 0.2s border ease-in-out;
     transition: 0.2s color ease-in-out;
+    &.red {
+      color: $main-color;
+      border-color: $main-color;
+      &:hover {
+        color: lighten($main-color, 20%);
+        border: 1px solid lighten($main-color, 20%);
+      }
+      &:active {
+        color: darken($main-color, 20%);
+        border: 1px solid darken($main-color, 20%);
+      }
+    }
     &:hover {
       color: lighten(#707070, 20%);
       border: 1px solid lighten(#707070, 20%);

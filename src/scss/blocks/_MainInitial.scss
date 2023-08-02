@@ -1,0 +1,9 @@
+.main-initial {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  &-text {
+    color: $text-color;
+  }
+}

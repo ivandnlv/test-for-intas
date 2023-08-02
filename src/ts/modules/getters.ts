@@ -30,7 +30,6 @@ export const fetchTestById = async (id: string) => {
 
     if (item) {
       test = item;
-      renderTestDescription();
     }
   } catch (error) {
     console.log('Произошла ошибка!', error);

@@ -12,6 +12,12 @@ interface ITestOptions {
   questions: IQuestion[];
 }
 
+export interface TestQuestion {
+  questionText: string;
+  questionValue: string | undefined;
+  questionTrueValue: string;
+}
+
 export interface ITest {
   item: ITestOptions;
   id: string;

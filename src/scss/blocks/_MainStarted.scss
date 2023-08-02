@@ -1,0 +1,51 @@
+.main-started {
+  .main__header {
+    &-subtitle {
+      font-size: 12px;
+    }
+  }
+  &__content {
+    padding: 16px;
+  }
+  &__form {
+    height: 100%;
+    button {
+      margin-top: 9px;
+    }
+    input,
+    label {
+      display: block;
+    }
+    .divider {
+      margin-top: 94px;
+    }
+    &-question {
+      margin-top: 12px;
+      border: none;
+      &:first-of-type {
+        margin-top: 0;
+      }
+      &__title {
+        color: #263238;
+        font-size: 16px;
+        font-weight: 400;
+      }
+      &__wrapper {
+        margin-top: 12px;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+        display: flex;
+        background: #efefef;
+        padding: 16px 36px;
+        flex-wrap: wrap;
+        gap: 20px;
+        border-radius: 3px;
+      }
+      &__answer {
+        display: flex;
+        gap: 8px;
+      }
+    }
+  }
+}

@@ -6,15 +6,6 @@
     height: 100%;
     overflow-y: auto;
   }
-  &-initial {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    &-text {
-      color: $text-color;
-    }
-  }
   &__header {
     width: 100%;
     display: flex;
@@ -37,7 +28,7 @@
     }
     &-func {
       display: flex;
-      width: 222px;
+      gap: 20px;
       justify-content: space-between;
       #resetTest {
         cursor: pointer;
@@ -45,85 +36,11 @@
       #testCounter,
       #testTimer {
         text-align: center;
-        position: relative;
-        &::before {
-          content: '';
-          position: absolute;
-          left: -10px;
-          top: 50%;
-          transform: translateY(-50%);
-          display: block;
-          background: #8d8d8d;
-          width: 1px;
-          height: 16px;
-        }
       }
-    }
-  }
-  &-selected {
-    &__test {
-      padding: 16px;
-      &-description {
-        color: #263238;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 24px;
-      }
-      &-btns {
-        margin-top: 20px;
-        display: flex;
-        gap: 20px;
-      }
-    }
-  }
-  &-started {
-    .main__header {
-      &-subtitle {
-        font-size: 12px;
-      }
-    }
-    &__content {
-      padding: 16px;
-    }
-    &__form {
-      height: 100%;
-      button {
-        margin-top: 9px;
-      }
-      input,
-      label {
-        display: block;
-      }
-      .divider {
-        margin-top: 94px;
-      }
-      &-question {
-        margin-top: 12px;
-        border: none;
-        &:first-of-type {
-          margin-top: 0;
-        }
-        &__title {
-          color: #263238;
-          font-size: 16px;
-          font-weight: 400;
-        }
-        &__wrapper {
-          margin-top: 12px;
-          width: 100%;
-          justify-content: space-between;
-          align-items: center;
-          display: flex;
-          background: #efefef;
-          padding: 16px 36px;
-          flex-wrap: wrap;
-          gap: 20px;
-          border-radius: 3px;
-        }
-        &__answer {
-          display: flex;
-          gap: 8px;
-        }
+      #testCounter {
+        padding: 0 10px;
+        border-left: 1px solid #8d8d8d;
+        border-right: 1px solid #8d8d8d;
       }
     }
   }
@@ -132,3 +49,8 @@
 input[type='radio'] {
   accent-color: $main-color;
 }
+
+@import './MainInitial';
+@import './MainSelected';
+@import './MainStarted';
+@import './MainFinished';

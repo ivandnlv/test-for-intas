@@ -1,0 +1,8 @@
+@media (max-width: 524px) {
+  .aside._opened {
+    position: fixed;
+    min-width: 100%;
+    width: max-content;
+    z-index: 2;
+  }
+}

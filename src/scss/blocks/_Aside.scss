@@ -31,12 +31,19 @@
     justify-content: center;
     align-items: center;
     height: 50px;
+    &._opened {
+      display: flex;
+      align-items: center;
+    }
     &-btn {
       cursor: pointer;
       margin: 0 auto;
       display: block;
       border: none;
       outline: none;
+      svg {
+        display: block;
+      }
     }
     &-title {
       flex: 1;

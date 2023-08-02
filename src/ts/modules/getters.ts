@@ -1,4 +1,4 @@
-import { renderLoadingTitle, renderTestDescription, renderTitles } from './renders';
+import { renderTitles, testLoadingChange, renderLoadingTitle } from './renders';
 import { Data, ITest } from '../types';
 
 export let data: Data | null = null;
@@ -10,6 +10,7 @@ const url = 'https://64bf6c1e5ee688b6250d63ba.mockapi.io/tests/items';
 export const fetchAllData = async () => {
   try {
     renderLoadingTitle();
+    testLoadingChange(true);
     const items: Data = await fetch(url).then((items) => items.json());
 
     if (items) {
@@ -19,6 +20,8 @@ export const fetchAllData = async () => {
     }
   } catch (error) {
     console.log('Произошла ошибка: ', error);
+  } finally {
+    testLoadingChange(false);
   }
 };
 

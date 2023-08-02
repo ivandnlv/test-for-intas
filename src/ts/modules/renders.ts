@@ -3,6 +3,10 @@ import { test, data, testNames, fetchTestById } from './getters';
 
 const mainEl = document.querySelector('.main');
 
+let testLoading = false;
+
+export const testLoadingChange = (value: boolean) => (testLoading = value);
+
 let timer = '00:00:00';
 let testStopped = true;
 
@@ -307,8 +311,8 @@ const renderTest = () => {
         variantEl.classList.add('main-started__form-question__answer');
         const id = `question${questionItem.id}answer${i + 1}`;
         variantEl.innerHTML = `
-          <input type="radio" value="${i}" name="question${questionItem.id}" id=${id}/>
-          <label for=${id}>${variant}</label>
+          <input type="radio" value="${i}" name="question${questionItem.id}" id="${id}" />
+          <label for="${id}">${variant}</label>
         `;
         questionItemWrapperEl.append(variantEl);
       });
@@ -422,17 +426,19 @@ const addListenersToTitles = () => {
 };
 
 const onTitleClick = async (id: string) => {
-  const localTest = localStorage.getItem(`${id}`);
-  if (localTest) {
-    testData = JSON.parse(localTest).questionsArr;
-    timer = JSON.parse(localTest).timer;
-    renderLoadingTestFinished();
-    await fetchTestById(id);
-    renderTestFinished();
-  } else {
-    renderLoadingTestDescription();
-    await fetchTestById(id);
-    renderTestDescription();
+  if (!testLoading) {
+    const localTest = localStorage.getItem(`${id}`);
+    if (localTest) {
+      testData = JSON.parse(localTest).questionsArr;
+      timer = JSON.parse(localTest).timer;
+      renderLoadingTestFinished();
+      await fetchTestById(id);
+      renderTestFinished();
+    } else {
+      renderLoadingTestDescription();
+      await fetchTestById(id);
+      renderTestDescription();
+    }
   }
 };
 

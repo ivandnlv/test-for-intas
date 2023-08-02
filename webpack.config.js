@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: './src/ts/index.ts', // Путь к вашему основному TypeScript файлу
+  entry: './src/ts/index.ts',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
@@ -24,7 +24,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.scss$/, // Добавили правило для файлов с расширением .scss
+        test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
       },
       {
@@ -55,7 +55,7 @@ module.exports = {
     static: {
       directory: path.join(__dirname, 'dist'),
     },
-    watchFiles: ['src/**/*.html', 'src/**/*.scss'], // Отслеживать изменения файлов HTML и SCSS
+    watchFiles: ['src/**/*.html', 'src/**/*.scss'],
     port: 3000,
   },
 };

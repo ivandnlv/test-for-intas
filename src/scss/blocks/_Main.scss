@@ -22,6 +22,9 @@
     align-items: center;
     height: 51px;
     padding: 0 16px;
+    #testClose {
+      cursor: pointer;
+    }
     &-subtitle {
       color: #cfcfcf;
       font-size: 15px;

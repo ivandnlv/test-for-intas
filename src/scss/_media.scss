@@ -1,8 +1,20 @@
-@media (max-width: 524px) {
+@media (max-width: 586px) {
   .aside._opened {
     position: fixed;
     min-width: 100%;
     width: max-content;
     z-index: 2;
+  }
+  .main__header {
+    flex-direction: column;
+    &-title {
+      order: 0;
+    }
+    &-subtitle:first-of-type {
+      display: none;
+    }
+    &-subtitle._hidden {
+      display: block;
+    }
   }
 }

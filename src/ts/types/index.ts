@@ -18,6 +18,12 @@ export interface TestQuestion {
   questionTrueValue: string;
 }
 
+interface ITestFormElem extends HTMLInputElement {}
+
+export interface ITestFormElements {
+  [key: string]: ITestFormElem;
+}
+
 export interface ITest {
   item: ITestOptions;
   id: string;

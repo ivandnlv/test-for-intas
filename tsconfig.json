@@ -3,7 +3,8 @@
     "target": "es6",
     "outDir": "./dist/js",
     "rootDir": "./src/ts",
-    "module": "commonjs"
+    "module": "commonjs",
+    "strict": true
   },
   "include": ["src/ts/**/*.ts"],
   "exclude": ["node_modules"]

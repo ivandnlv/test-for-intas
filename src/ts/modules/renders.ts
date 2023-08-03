@@ -1,9 +1,11 @@
-import { TestQuestion } from '../types';
+import { asideChange } from '..';
+import { ITestFormElements, TestQuestion } from '../types';
 import { test, data, testNames, fetchTestById } from './getters';
 
 const mainEl = document.querySelector('.main');
 
 let testLoading = false;
+export let isMobile = false;
 
 export const testLoadingChange = (value: boolean) => (testLoading = value);
 
@@ -18,22 +20,28 @@ const onFormSubmit = (e: SubmitEvent, form: HTMLFormElement) => {
   let questionsArr: TestQuestion[] = [];
   if (test) {
     test.item.questions.forEach((question, i) => {
+      const key: keyof ITestFormElements = `question${i + 1}`;
+      const formElements = form.elements as unknown as ITestFormElements;
+
       questionsArr.push({
         questionText: question.text,
         questionTrueValue: question.variants[question.trueIndex],
-        questionValue: question.variants[form.elements[`question${i + 1}`].value] ?? '',
+        // @ts-ignore
+        questionValue: question.variants[formElements[key].value] ?? '',
       });
     });
-  }
 
-  localStorage.setItem(`${test.id}`, JSON.stringify({ questionsArr, timer }));
-  testData = questionsArr;
-  renderTestFinished();
+    localStorage.setItem(`${test.id}`, JSON.stringify({ questionsArr, timer }));
+    testData = questionsArr;
+    renderTestFinished();
+  }
 };
 
 const onFormReset = (form: HTMLFormElement, formCount: HTMLSpanElement) => {
   form.reset();
-  formCount.textContent = `0/${test.item.questions.length}`;
+  if (test) {
+    formCount.textContent = `0/${test.item.questions.length}`;
+  }
 };
 
 const onTimerStart = (timerElem: HTMLSpanElement) => {
@@ -59,12 +67,15 @@ const onFormChange = (form: HTMLFormElement, formCount: HTMLSpanElement) => {
   let formValues: string[] = [];
   if (test) {
     test.item.questions.forEach((_, i) => {
-      if (form.elements[`question${i + 1}`].value) {
-        formValues.push(form.elements[`question${i + 1}`].value);
+      const key = `question${i + 1}`;
+      //@ts-ignore
+      if (form.elements[key].value) {
+        //@ts-ignore
+        formValues.push(form.elements[key].value);
       }
     });
+    formCount.textContent = `${formValues.length}/${test.item.questions.length}`;
   }
-  formCount.textContent = `${formValues.length}/${test.item.questions.length}`;
 };
 
 const onFormClose = () => {
@@ -72,7 +83,7 @@ const onFormClose = () => {
 };
 
 const clearTestData = () => {
-  if (testData) {
+  if (testData && test) {
     localStorage.removeItem(`${test.id}`);
     testData = null;
     timer = '00:00:00';
@@ -87,7 +98,7 @@ const renderTestFinished = () => {
     mainFinishedContentEl.classList.add('main-finished__content');
 
     const completedQuestionsCount = testData.filter(
-      (question) => question.questionValue.length,
+      (question) => question.questionValue && question.questionValue.length,
     ).length;
     const allQuestionsCount = testData.length;
 
@@ -96,15 +107,14 @@ const renderTestFinished = () => {
 
     const mainFinishedHeader = createTestHeader();
 
-    const closeBtn = mainFinishedHeader.querySelector('#testClose');
-    closeBtn.addEventListener('click', renderInitialMain);
-
     const testCounter = mainFinishedHeader.querySelector('#testCounter');
-    testCounter.textContent = `${
-      completedQuestionsCount < 10
-        ? '0' + completedQuestionsCount.toString()
-        : completedQuestionsCount
-    }/${allQuestionsCount < 10 ? '0' + allQuestionsCount.toString() : allQuestionsCount}`;
+    if (testCounter) {
+      testCounter.textContent = `${
+        completedQuestionsCount < 10
+          ? '0' + completedQuestionsCount.toString()
+          : completedQuestionsCount
+      }/${allQuestionsCount < 10 ? '0' + allQuestionsCount.toString() : allQuestionsCount}`;
+    }
 
     const dividerEl = document.createElement('div');
     dividerEl.classList.add('divider');
@@ -132,7 +142,9 @@ const renderTestFinished = () => {
         <div class="main-finished__list-item-answers">
             <span>Правильный ответ: ${question.questionTrueValue}</span>
             <span>Вы ответили: ${
-              question.questionValue.length ? question.questionValue : 'не ответили'
+              question.questionValue && question.questionValue.length
+                ? question.questionValue
+                : 'не ответили'
             }</span>
         </div>
       `;
@@ -157,57 +169,102 @@ const renderTestFinished = () => {
 
     mainFinishedEl.append(repeatBtn);
 
-    mainEl.innerHTML = '';
-    mainEl.append(mainFinishedEl);
+    if (mainEl) {
+      mainEl.innerHTML = '';
+      mainEl.append(mainFinishedEl);
+    }
   } else {
     renderInitialMain();
   }
 };
 
+// Адаптивность для хэдера
+
+window.addEventListener('resize', () => {
+  const targetElement = document.body;
+
+  const newWidth = targetElement.clientWidth;
+  const mobileWidth = 560;
+
+  const closeTextContent = 'Выход';
+  const resetTextContent = 'Сбросить все ответы';
+
+  const resestEl = targetElement.querySelector('#resetTest');
+  const closeEl = targetElement.querySelector('#testClose');
+
+  if (newWidth <= mobileWidth) {
+    isMobile = true;
+    if (resestEl && closeEl) {
+      resestEl.innerHTML = `<i class="fa-solid fa-ban fa-xl"></i>`;
+      closeEl.innerHTML = `<i class="fa-solid fa-square-xmark fa-xl"></i>`;
+    }
+  } else {
+    isMobile = false;
+    if (resestEl && closeEl) {
+      resestEl.innerHTML = '';
+      closeEl.innerHTML = '';
+      resestEl.textContent = resetTextContent;
+      closeEl.textContent = closeTextContent;
+    }
+  }
+});
+
 const createTestHeader = (): HTMLDivElement => {
   // Test Header
-
   const testHeader = document.createElement('div');
   testHeader.classList.add('main__header');
 
-  const testClose = document.createElement('span');
-  testClose.classList.add('main__header-subtitle');
-  testClose.id = 'testClose';
-  testClose.textContent = 'Выход';
+  if (test) {
+    const testClose = document.createElement('span');
+    testClose.classList.add('main__header-subtitle');
+    testClose.id = 'testClose';
+    testClose.textContent = 'Выход';
+    testClose.addEventListener('click', () => {
+      onFormClose();
+    });
 
-  const testTitle = document.createElement('h1');
-  testTitle.classList.add('main__header-title');
-  testTitle.textContent = test.item.name ?? 'Тест';
+    const testCloseMobile = document.createElement('span');
+    testCloseMobile.classList.add('main__header-subtitle', '_hidden');
+    testCloseMobile.id = 'testClose';
+    testCloseMobile.textContent = 'Выход';
+    testCloseMobile.addEventListener('click', () => {
+      onFormClose();
+    });
 
-  const testFuncWrapper = document.createElement('div');
-  testFuncWrapper.classList.add('main__header-func');
+    const testTitle = document.createElement('h1');
+    testTitle.classList.add('main__header-title');
+    testTitle.textContent = test.item.name ?? 'Тест';
 
-  const testResetBtn = document.createElement('span');
-  testResetBtn.textContent = 'Сбросить все ответы';
-  testResetBtn.classList.add('main__header-subtitle');
-  testResetBtn.id = 'resetTest';
+    const testFuncWrapper = document.createElement('div');
+    testFuncWrapper.classList.add('main__header-func');
 
-  const testCounter = document.createElement('span');
-  testCounter.classList.add('main__header-subtitle');
-  testCounter.id = 'testCounter';
-  testCounter.textContent = `0/${test.item.questions.length}`;
+    const testResetBtn = document.createElement('span');
+    testResetBtn.textContent = 'Сбросить все ответы';
+    testResetBtn.classList.add('main__header-subtitle');
+    testResetBtn.id = 'resetTest';
 
-  const testTimer = document.createElement('span');
-  testTimer.classList.add('main__header-subtitle');
-  testTimer.id = 'testTimer';
-  testTimer.textContent = timer;
+    const testCounter = document.createElement('span');
+    testCounter.classList.add('main__header-subtitle');
+    testCounter.id = 'testCounter';
+    testCounter.textContent = `0/${test.item.questions.length}`;
 
-  if (!testStopped) {
-    const timerStart = setInterval(() => {
-      onTimerStart(testTimer);
-      if (testStopped) {
-        clearInterval(timerStart);
-      }
-    }, 1000);
+    const testTimer = document.createElement('span');
+    testTimer.classList.add('main__header-subtitle');
+    testTimer.id = 'testTimer';
+    testTimer.textContent = timer;
+
+    if (!testStopped) {
+      const timerStart = setInterval(() => {
+        onTimerStart(testTimer);
+        if (testStopped) {
+          clearInterval(timerStart);
+        }
+      }, 1000);
+    }
+
+    testFuncWrapper.append(testCloseMobile, testResetBtn, testCounter, testTimer);
+    testHeader.append(testClose, testTitle, testFuncWrapper);
   }
-
-  testFuncWrapper.append(testResetBtn, testCounter, testTimer);
-  testHeader.append(testClose, testTitle, testFuncWrapper);
 
   return testHeader;
 };
@@ -228,12 +285,21 @@ const renderModal = (title: string, subtitle: string) => {
   const closeBtnEl = modalEl.querySelector('.modal__btns-close');
   const cancelBtnEl = modalEl.querySelector('.modal__btns-cancel');
 
-  closeBtnEl.addEventListener('click', () => {
-    modalEl.parentNode.removeChild(modalEl);
-    renderInitialMain();
-  });
+  if (closeBtnEl && modalEl) {
+    closeBtnEl.addEventListener('click', () => {
+      if (modalEl.parentNode) {
+        modalEl.parentNode.removeChild(modalEl);
+        renderInitialMain();
+      }
+    });
+  }
 
-  cancelBtnEl.addEventListener('click', () => modalEl.parentNode.removeChild(modalEl));
+  if (cancelBtnEl) {
+    cancelBtnEl.addEventListener(
+      'click',
+      () => modalEl.parentNode && modalEl.parentNode.removeChild(modalEl),
+    );
+  }
 
   document.body.prepend(modalEl);
 };
@@ -241,38 +307,42 @@ const renderModal = (title: string, subtitle: string) => {
 const renderTestDescription = () => {
   timer = '00:00:00';
   testStopped = true;
-  const testEl = document.createElement('div');
-  testEl.classList.add('main__wrapper', 'main-selected');
-  testEl.innerHTML = `
-		<header class="main__header">
-            <span class="main__header-subtitle">Описание</span>
-        </header>
-        <div class="divider main-selected__divider"></div>
-        <div class="main-selected__test">
-        	<p class="main-selected__test-description">
-            	${test.item.description}
-            </p>
-		</div>
-	`;
-  const testContainerEl = testEl.querySelector('.main-selected__test');
-  const btnsContainerEl = document.createElement('div');
-  btnsContainerEl.classList.add('main-selected__test-btns');
-  const startBtnEl = document.createElement('button');
-  startBtnEl.classList.add('btn', 'main-selected__test-btn');
-  startBtnEl.textContent = 'Начать';
-  const closeBtnEl = document.createElement('button');
-  closeBtnEl.classList.add('btn', 'outlined', 'main-selected__test-btn');
-  closeBtnEl.textContent = 'Отмена';
+  if (test) {
+    const testEl = document.createElement('div');
+    testEl.classList.add('main__wrapper', 'main-selected');
+    testEl.innerHTML = `
+      <header class="main__header">
+              <span class="main__header-subtitle">Описание</span>
+          </header>
+          <div class="divider main-selected__divider"></div>
+          <div class="main-selected__test">
+            <p class="main-selected__test-description">
+                ${test.item.description}
+              </p>
+      </div>
+    `;
+    const testContainerEl = testEl.querySelector('.main-selected__test');
+    const btnsContainerEl = document.createElement('div');
+    btnsContainerEl.classList.add('main-selected__test-btns');
+    const startBtnEl = document.createElement('button');
+    startBtnEl.classList.add('btn', 'main-selected__test-btn');
+    startBtnEl.textContent = 'Начать';
+    const closeBtnEl = document.createElement('button');
+    closeBtnEl.classList.add('btn', 'outlined', 'main-selected__test-btn');
+    closeBtnEl.textContent = 'Отмена';
 
-  startBtnEl.addEventListener('click', renderTest);
-  closeBtnEl.addEventListener('click', renderInitialMain);
+    startBtnEl.addEventListener('click', renderTest);
+    closeBtnEl.addEventListener('click', renderInitialMain);
 
-  btnsContainerEl.append(startBtnEl, closeBtnEl);
+    btnsContainerEl.append(startBtnEl, closeBtnEl);
 
-  testContainerEl.append(btnsContainerEl);
+    if (testContainerEl) testContainerEl.append(btnsContainerEl);
 
-  mainEl.innerHTML = '';
-  mainEl.append(testEl);
+    if (mainEl) {
+      mainEl.innerHTML = '';
+      mainEl.append(testEl);
+    }
+  }
 };
 
 const renderTest = () => {
@@ -284,12 +354,10 @@ const renderTest = () => {
 
   testEl.append(testHeader);
 
-  const testClose = testHeader.querySelector('#testClose');
   const testResetBtn = testHeader.querySelector('#resetTest');
   const testCounter = testHeader.querySelector('#testCounter') as HTMLSpanElement;
 
   // Test Form
-
   const formContainer = document.createElement('div');
   formContainer.classList.add('main-started__content');
 
@@ -297,8 +365,9 @@ const renderTest = () => {
   testForm.action = '#';
   testForm.classList.add('main-started__form');
 
-  testClose.addEventListener('click', onFormClose);
-  testResetBtn.addEventListener('click', () => onFormReset(testForm, testCounter));
+  if (testResetBtn) {
+    testResetBtn.addEventListener('click', () => onFormReset(testForm, testCounter));
+  }
 
   if (test) {
     test.item.questions.forEach((questionItem) => {
@@ -335,26 +404,17 @@ const renderTest = () => {
   testForm.addEventListener('submit', (e) => onFormSubmit(e, testForm));
   testForm.addEventListener('change', () => onFormChange(testForm, testCounter));
 
-  mainEl.innerHTML = '';
-  mainEl.append(testEl);
-};
-
-const renderInitialMain = () => {
-  timer = '00:00:00';
-  testStopped = true;
-  testData = null;
-  clearTitles();
-  mainEl.innerHTML = '';
-  mainEl.innerHTML = `
-          <div class="main__wrapper main-initial">
-            <span class="main__intital-text">Выберите тест из списка</span>
-          </div>
-  `;
+  if (mainEl) {
+    mainEl.innerHTML = '';
+    mainEl.append(testEl);
+  }
 };
 
 const renderLoadingTitle = () => {
   const titlesContainer = document.querySelector('.aside__list');
-  titlesContainer.innerHTML = `<p>Тесты загружаются...</p>`;
+  if (titlesContainer) {
+    titlesContainer.innerHTML = `<p>Тесты загружаются...</p>`;
+  }
 };
 
 const renderLoadingTestDescription = () => {
@@ -371,8 +431,10 @@ const renderLoadingTestDescription = () => {
             </p>
 		    </div>
 	`;
-  mainEl.innerHTML = '';
-  mainEl.append(testEl);
+  if (mainEl) {
+    mainEl.innerHTML = '';
+    mainEl.append(testEl);
+  }
 };
 
 const renderLoadingTestFinished = () => {
@@ -390,43 +452,56 @@ const renderLoadingTestFinished = () => {
             </div>
           </div>
   `;
-  mainEl.innerHTML = '';
-  mainEl.append(testFinished);
+  if (mainEl) {
+    mainEl.innerHTML = '';
+    mainEl.append(testFinished);
+  }
 };
 
 const renderTitles = () => {
   const titlesContainer = document.querySelector('.aside__list');
-  titlesContainer.innerHTML = '';
-  testNames.forEach((name, i) => {
-    const title = document.createElement('li');
-    title.classList.add('aside__list-item');
-    title.dataset.id = data[i].id;
-    title.textContent = name;
-    titlesContainer.append(title);
-    if (i === testNames.length - 1) addListenersToTitles();
-  });
+  if (titlesContainer && testNames) {
+    titlesContainer.innerHTML = '';
+
+    testNames.forEach((name, i) => {
+      if (testNames && data) {
+        const title = document.createElement('li');
+        title.classList.add('aside__list-item');
+        title.dataset.id = data[i].id;
+        title.textContent = name;
+        titlesContainer.append(title);
+        if (i === testNames.length - 1) addListenersToTitles();
+      }
+    });
+  }
 };
 
 const clearTitles = () => {
   const titleElements = document.querySelectorAll('.aside__list-item');
-  titleElements.forEach((title) => title.classList.remove('_active'));
+  if (titleElements) {
+    titleElements.forEach((title) => title.classList.remove('_active'));
+  }
 };
 
 const addListenersToTitles = () => {
-  const titleElements = document.querySelectorAll('.aside__list-item');
-  titleElements.forEach((title: HTMLDivElement) => {
-    title.addEventListener('click', () => {
-      titleElements.forEach((otherTitle) => {
-        otherTitle.classList.remove('_active');
+  const titleElements: NodeListOf<HTMLDivElement> = document.querySelectorAll('.aside__list-item');
+  if (titleElements) {
+    titleElements.forEach((title: HTMLDivElement) => {
+      title.addEventListener('click', () => {
+        titleElements.forEach((otherTitle) => {
+          otherTitle.classList.remove('_active');
+        });
+        title.classList.add('_active');
+
+        if (title.dataset.id) onTitleClick(title.dataset.id);
       });
-      title.classList.add('_active');
-      onTitleClick(title.dataset.id);
     });
-  });
+  }
 };
 
 const onTitleClick = async (id: string) => {
   if (!testLoading) {
+    if (isMobile) asideChange();
     const localTest = localStorage.getItem(`${id}`);
     if (localTest) {
       testData = JSON.parse(localTest).questionsArr;

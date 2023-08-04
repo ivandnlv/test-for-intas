@@ -1,17 +1,10 @@
-import { TestQuestion } from '../../types';
-import { clearTitles } from '../renders';
+import { mainEl } from '../../index';
+import { clearTitles, changeTestData, changeTestStopped, changeTimer } from '../app';
 
-interface IRenderInitialMainOptions {
-  timer: string;
-  testStopped: boolean;
-  testData: TestQuestion[] | null;
-  mainEl: HTMLDivElement | null;
-}
-
-const renderInitialMain = ({ mainEl, testData, testStopped, timer }: IRenderInitialMainOptions) => {
-  timer = '00:00:00';
-  testStopped = true;
-  testData = null;
+export const renderInitialMain = () => {
+  changeTimer('00:00:00');
+  changeTestStopped(true);
+  changeTestData(null);
   clearTitles();
   if (mainEl) {
     mainEl.innerHTML = '';

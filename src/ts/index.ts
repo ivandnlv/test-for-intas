@@ -1,7 +1,14 @@
-import { renderInitialMain, isMobile } from './modules/renders';
+import { renderInitialMain } from './modules/renders';
 import { fetchAllData, testNames } from './modules/getters';
 
 import '../scss/index.scss';
+
+const mainEl = document.createElement('div');
+mainEl.classList.add('main');
+
+const wrapperEl = document.querySelector('.wrapper');
+
+if (wrapperEl) wrapperEl.append(mainEl);
 
 window.addEventListener('DOMContentLoaded', renderInitialMain);
 
@@ -15,7 +22,7 @@ asideBtnsEl.forEach((btn) => {
   });
 });
 
-export const asideChange = () => {
+const asideChange = () => {
   asideTops.forEach((asideTop) => {
     if (asideTop.classList.contains('_hidden')) {
       asideTop.classList.remove('_hidden');
@@ -32,3 +39,5 @@ export const asideChange = () => {
     }
   }
 };
+
+export { asideChange, mainEl };

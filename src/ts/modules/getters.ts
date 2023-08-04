@@ -1,4 +1,4 @@
-import { renderTitles, renderLoadingTitle } from './renders';
+import { renderTitles, renderLoadingTitle, renderErrorTitle } from './renders';
 import { changeTestLoading } from './app';
 import { Data, ITest } from '../types';
 
@@ -20,6 +20,7 @@ export const fetchAllData = async () => {
       renderTitles();
     }
   } catch (error) {
+    renderErrorTitle();
     console.log('Произошла ошибка: ', error);
   } finally {
     changeTestLoading(false);

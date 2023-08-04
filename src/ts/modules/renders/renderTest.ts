@@ -9,7 +9,33 @@ import {
 } from '../app';
 import { createTestHeader } from '../components';
 
+const wrapperMaxHeight = 53;
+
 export const renderTest = () => {
+  // Функция проверки на то помещаются ли все варианты ответа в одну строку,
+  // если нет, то добавляем flex-direction: 'column', если да то обратно 'row'
+
+  const changeQuestionWrapperFlexDirection = () => {
+    const questionItemEls: NodeListOf<HTMLDivElement> | null = document.querySelectorAll(
+      '.main-started__form-question__wrapper',
+    );
+
+    if (questionItemEls) {
+      questionItemEls.forEach((questionItemEl) => {
+        if (questionItemEl) {
+          questionItemEl.style.flexDirection = 'row';
+          if (questionItemEl.clientHeight >= wrapperMaxHeight) {
+            questionItemEl.style.flexDirection = 'column';
+          } else {
+            questionItemEl.style.flexDirection = 'row';
+          }
+        }
+      });
+    }
+  };
+
+  window.addEventListener('resize', changeQuestionWrapperFlexDirection);
+
   changeTimer('00:00:00');
   changeTestStopped(false);
   const testEl = document.createElement('div');
@@ -52,6 +78,7 @@ export const renderTest = () => {
       questionItemEl.innerHTML = `
        <legend class="main-started__form-question__title">${questionItem.id}. ${questionItem.text}</legend>
       `;
+
       questionItemEl.append(questionItemWrapperEl);
       testForm.append(questionItemEl);
     });
@@ -72,4 +99,6 @@ export const renderTest = () => {
     mainEl.innerHTML = '';
     mainEl.append(testEl);
   }
+
+  changeQuestionWrapperFlexDirection();
 };

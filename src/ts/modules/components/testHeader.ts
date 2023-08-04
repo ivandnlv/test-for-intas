@@ -2,31 +2,31 @@ import { test, onFormClose, testStopped, onTimerStart, timer, changeIsMobile } f
 
 // Адаптивность для хэдера
 
+const startHeaderClientWidth = document.body.clientWidth;
+const mobileWidth = 710;
+
+const resetTextContent = 'Сбросить все ответы';
+
+const resetElIcon = '<i class="fa-solid fa-ban fa-xl"></i>';
+const closeElIcon = '<i class="fa-solid fa-square-xmark fa-xl"></i>';
+
 window.addEventListener('resize', () => {
   const targetElement = document.body;
 
   const newWidth = targetElement.clientWidth;
-  const mobileWidth = 560;
-
-  const closeTextContent = 'Выход';
-  const resetTextContent = 'Сбросить все ответы';
 
   const resestEl = targetElement.querySelector('#resetTest');
-  const closeEl = targetElement.querySelector('#testClose');
 
   if (newWidth <= mobileWidth) {
     changeIsMobile(true);
-    if (resestEl && closeEl) {
-      resestEl.innerHTML = `<i class="fa-solid fa-ban fa-xl"></i>`;
-      closeEl.innerHTML = `<i class="fa-solid fa-square-xmark fa-xl"></i>`;
+    if (resestEl) {
+      resestEl.innerHTML = resetElIcon;
     }
   } else {
     changeIsMobile(false);
-    if (resestEl && closeEl) {
+    if (resestEl) {
       resestEl.innerHTML = '';
-      closeEl.innerHTML = '';
       resestEl.textContent = resetTextContent;
-      closeEl.textContent = closeTextContent;
     }
   }
 });
@@ -39,8 +39,8 @@ export const createTestHeader = (): HTMLDivElement => {
   if (test) {
     const testClose = document.createElement('span');
     testClose.classList.add('main__header-subtitle');
-    testClose.id = 'testClose';
     testClose.textContent = 'Выход';
+    testClose.id = 'testClose';
     testClose.addEventListener('click', () => {
       onFormClose();
     });
@@ -48,7 +48,7 @@ export const createTestHeader = (): HTMLDivElement => {
     const testCloseMobile = document.createElement('span');
     testCloseMobile.classList.add('main__header-subtitle', '_hidden');
     testCloseMobile.id = 'testClose';
-    testCloseMobile.textContent = 'Выход';
+    testCloseMobile.innerHTML = closeElIcon;
     testCloseMobile.addEventListener('click', () => {
       onFormClose();
     });
@@ -61,7 +61,6 @@ export const createTestHeader = (): HTMLDivElement => {
     testFuncWrapper.classList.add('main__header-func');
 
     const testResetBtn = document.createElement('span');
-    testResetBtn.textContent = 'Сбросить все ответы';
     testResetBtn.classList.add('main__header-subtitle');
     testResetBtn.id = 'resetTest';
 
@@ -74,6 +73,12 @@ export const createTestHeader = (): HTMLDivElement => {
     testTimer.classList.add('main__header-subtitle');
     testTimer.id = 'testTimer';
     testTimer.textContent = timer;
+
+    if (startHeaderClientWidth >= mobileWidth) {
+      testResetBtn.textContent = resetTextContent;
+    } else {
+      testResetBtn.innerHTML = resetElIcon;
+    }
 
     if (!testStopped) {
       const timerStart = setInterval(() => {

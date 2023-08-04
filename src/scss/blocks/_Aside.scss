@@ -54,22 +54,24 @@
   &__content {
     padding: 20px 15px;
     width: 100%;
+    max-width: 200px;
   }
   &__list {
     display: none;
     list-style-type: none;
     &-item {
-      display: flex;
+      display: grid;
+      grid-template-columns: 7px 1fr;
       gap: 11px;
       align-items: center;
       cursor: pointer;
-      padding-left: 15px;
+      padding: 2px 0 2px 15px;
       margin-top: 6px;
       &::before {
         content: '';
         display: block;
-        width: 5px;
-        height: 5px;
+        width: 7px;
+        height: 7px;
         background: #000;
         border-radius: 50%;
       }

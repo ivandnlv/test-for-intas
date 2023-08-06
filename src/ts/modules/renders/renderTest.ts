@@ -9,7 +9,7 @@ import {
 } from '../app';
 import { createTestHeader } from '../components';
 
-const wrapperMaxHeight = 53;
+const wrapperMaxHeight = 60;
 
 export const renderTest = () => {
   // Функция проверки на то помещаются ли все варианты ответа в одну строку,

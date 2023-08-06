@@ -1,4 +1,13 @@
-import { test, onFormClose, testStopped, onTimerStart, timer, changeIsMobile } from '../app';
+import {
+  test,
+  testData,
+  onFormClose,
+  testStopped,
+  onTimerStart,
+  timer,
+  changeIsMobile,
+} from '../app';
+import { renderInitialMain } from '../renders';
 
 // Адаптивность для хэдера
 
@@ -41,17 +50,25 @@ export const createTestHeader = (): HTMLDivElement => {
     testClose.classList.add('main__header-subtitle');
     testClose.textContent = 'Выход';
     testClose.id = 'testClose';
-    testClose.addEventListener('click', () => {
-      onFormClose();
-    });
+    if (!testData) {
+      testClose.addEventListener('click', () => {
+        onFormClose();
+      });
+    } else {
+      testClose.addEventListener('click', renderInitialMain);
+    }
 
     const testCloseMobile = document.createElement('span');
     testCloseMobile.classList.add('main__header-subtitle', '_hidden');
     testCloseMobile.id = 'testClose';
     testCloseMobile.innerHTML = closeElIcon;
-    testCloseMobile.addEventListener('click', () => {
-      onFormClose();
-    });
+    if (!testData) {
+      testCloseMobile.addEventListener('click', () => {
+        onFormClose();
+      });
+    } else {
+      testCloseMobile.addEventListener('click', renderInitialMain);
+    }
 
     const testTitle = document.createElement('h1');
     testTitle.classList.add('main__header-title');

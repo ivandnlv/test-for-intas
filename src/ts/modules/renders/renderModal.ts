@@ -1,6 +1,11 @@
-import { renderInitialMain } from './renderInitialMain';
+interface IRenderModalOptions {
+  title: string;
+  subtitle: string;
+  btnText: string;
+  btnMethod: () => void;
+}
 
-export const renderModal = (title: string, subtitle: string) => {
+export const renderModal = ({ title, subtitle, btnText, btnMethod }: IRenderModalOptions) => {
   const modalEl = document.createElement('div');
   modalEl.classList.add('modal');
   modalEl.innerHTML = `
@@ -8,7 +13,7 @@ export const renderModal = (title: string, subtitle: string) => {
           <span class="modal__title">${title}</span>
           <p class="modal__description">${subtitle}</p>
           <div class="modal__btns">
-            <button class="btn outlined red modal__btns-close">Выход</button>
+            <button class="btn outlined red modal__btns-close">${btnText}</button>
             <button class="btn red modal__btns-cancel">Отмена</button>
           </div>
         </div>
@@ -20,7 +25,7 @@ export const renderModal = (title: string, subtitle: string) => {
     closeBtnEl.addEventListener('click', () => {
       if (modalEl.parentNode) {
         modalEl.parentNode.removeChild(modalEl);
-        renderInitialMain();
+        btnMethod();
       }
     });
   }

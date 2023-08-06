@@ -1,7 +1,16 @@
 import { mainEl } from '../..';
 import { createTestHeader } from '../components';
-import { renderInitialMain } from './';
+import { renderInitialMain, renderModal } from './';
 import { changeTestStopped, testData, clearTestData } from '../app';
+
+const onResetClick = () => {
+  renderModal({
+    title: 'Сбросить ответы',
+    subtitle: 'Вы уверены что хотите сбросить ответы?',
+    btnText: 'Сбросить',
+    btnMethod: clearTestData,
+  });
+};
 
 export const renderTestFinished = () => {
   changeTestStopped(true);
@@ -18,6 +27,11 @@ export const renderTestFinished = () => {
     mainFinishedEl.classList.add('main__wrapper', 'main-finished');
 
     const mainFinishedHeader = createTestHeader();
+
+    const testResetBtn = mainFinishedHeader.querySelector('#resetTest');
+    if (testResetBtn) {
+      testResetBtn.addEventListener('click', onResetClick);
+    }
 
     const testCounter = mainFinishedHeader.querySelector('#testCounter');
     if (testCounter) {
@@ -77,7 +91,7 @@ export const renderTestFinished = () => {
     const repeatBtn = document.createElement('button');
     repeatBtn.classList.add('btn', 'red', 'outlined', 'main-finished__btn');
     repeatBtn.textContent = 'Пройти тест еще раз';
-    repeatBtn.addEventListener('click', clearTestData);
+    repeatBtn.addEventListener('click', onResetClick);
 
     mainFinishedEl.append(repeatBtn);
 

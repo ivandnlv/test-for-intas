@@ -9,6 +9,7 @@ import {
   renderTest,
   renderModal,
   renderTestDescription,
+  renderInitialMain,
 } from './renders';
 
 let testLoading = false;
@@ -102,7 +103,12 @@ const onFormChange = (form: HTMLFormElement, formCount: HTMLSpanElement) => {
 };
 
 const onFormClose = () => {
-  renderModal('Вы уверены что хотите выйти?', 'Все результаты будут сброшены');
+  renderModal({
+    title: 'Вы уверены что хотите выйти',
+    subtitle: 'Все результаты будут сброшены',
+    btnText: 'Выход',
+    btnMethod: renderInitialMain,
+  });
 };
 
 const clearTestData = () => {

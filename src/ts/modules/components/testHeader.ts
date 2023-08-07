@@ -1,42 +1,37 @@
-import {
-  test,
-  testData,
-  onFormClose,
-  testStopped,
-  onTimerStart,
-  timer,
-  changeIsMobile,
-} from '../app';
+import { mobileWidth, test, testData, onFormClose, testStopped, onTimerStart, timer } from '../app';
 import { renderInitialMain } from '../renders';
 
 // Адаптивность для хэдера
-
-const startHeaderClientWidth = document.body.clientWidth;
-const mobileWidth = 710;
 
 const resetTextContent = 'Сбросить все ответы';
 
 const resetElIcon = '<i class="fa-solid fa-ban fa-xl"></i>';
 const closeElIcon = '<i class="fa-solid fa-square-xmark fa-xl"></i>';
 
+const startHeaderClientWidth = document.body.clientWidth;
+
+const changeResetEl = (width: number, resetEl: HTMLSpanElement) => {
+  if (width <= mobileWidth) {
+    if (resetEl) {
+      resetEl.innerHTML = resetElIcon;
+    }
+  } else {
+    if (resetEl) {
+      resetEl.innerHTML = '';
+      resetEl.textContent = resetTextContent;
+    }
+  }
+};
+
 window.addEventListener('resize', () => {
   const targetElement = document.body;
 
   const newWidth = targetElement.clientWidth;
 
-  const resestEl = targetElement.querySelector('#resetTest');
+  const resetEl = targetElement.querySelector('#resetTest') as HTMLSpanElement;
 
-  if (newWidth <= mobileWidth) {
-    changeIsMobile(true);
-    if (resestEl) {
-      resestEl.innerHTML = resetElIcon;
-    }
-  } else {
-    changeIsMobile(false);
-    if (resestEl) {
-      resestEl.innerHTML = '';
-      resestEl.textContent = resetTextContent;
-    }
+  if (resetEl) {
+    changeResetEl(newWidth, resetEl);
   }
 });
 
@@ -80,6 +75,8 @@ export const createTestHeader = (): HTMLDivElement => {
     const testResetBtn = document.createElement('span');
     testResetBtn.classList.add('main__header-subtitle');
     testResetBtn.id = 'resetTest';
+
+    changeResetEl(startHeaderClientWidth, testResetBtn);
 
     const testCounter = document.createElement('span');
     testCounter.classList.add('main__header-subtitle');

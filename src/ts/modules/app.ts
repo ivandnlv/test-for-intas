@@ -12,8 +12,23 @@ import {
   renderInitialMain,
 } from './renders';
 
+const mobileWidth = 710;
+const startWidth = document.body.clientWidth;
+
 let testLoading = false;
 let isMobile = false;
+
+if (startWidth <= mobileWidth) {
+  isMobile = true;
+}
+
+window.addEventListener('resize', () => {
+  if (document.body.clientWidth <= mobileWidth) {
+    isMobile = true;
+  } else {
+    isMobile = false;
+  }
+});
 
 let timer = '00:00:00';
 let testStopped = true;
@@ -162,6 +177,7 @@ const onTitleClick = async (id: string) => {
 };
 
 export {
+  mobileWidth,
   isMobile,
   testData,
   testNames,

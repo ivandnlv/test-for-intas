@@ -3,7 +3,14 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  &-text {
+  &__text {
     color: $text-color;
+  }
+  &__descr {
+    margin-top: 10px;
+    font-size: 0.9em;
+    max-width: 250px;
+    text-align: center;
+    opacity: 0.7;
   }
 }

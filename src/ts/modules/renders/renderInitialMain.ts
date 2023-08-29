@@ -6,11 +6,14 @@ export const renderInitialMain = () => {
   changeTestStopped(true);
   changeTestData(null);
   clearTitles();
+  const mainText = 'Выберите тест из списка';
+  const mainDescription = 'Для этого кликните на меню в левом верхнем углу';
   if (mainEl) {
     mainEl.innerHTML = '';
     mainEl.innerHTML = `
             <div class="main__wrapper main-initial">
-              <span class="main__intital-text">Выберите тест из списка</span>
+              <span class="main-intital__text">${mainText}</span>
+              <p class="main-initial__descr">${mainDescription}</p>
             </div>
     `;
   }

@@ -1,13 +1,13 @@
 import { mainEl } from '../..';
 
-const renderLoadingTitle = () => {
+function renderLoadingTitle() {
   const titlesContainer = document.querySelector('.aside__list');
   if (titlesContainer) {
     titlesContainer.innerHTML = `<p>Тесты загружаются...</p>`;
   }
-};
+}
 
-const renderLoadingTestDescription = () => {
+function renderLoadingTestDescription() {
   const testEl = document.createElement('div');
   testEl.classList.add('main__wrapper', 'main-selected');
   testEl.innerHTML = `
@@ -25,9 +25,9 @@ const renderLoadingTestDescription = () => {
     mainEl.innerHTML = '';
     mainEl.append(testEl);
   }
-};
+}
 
-const renderLoadingTestFinished = () => {
+function renderLoadingTestFinished() {
   const testFinished = document.createElement('div');
   testFinished.classList.add('main__wrapper', 'main-finished');
   testFinished.innerHTML = `
@@ -46,6 +46,6 @@ const renderLoadingTestFinished = () => {
     mainEl.innerHTML = '';
     mainEl.append(testFinished);
   }
-};
+}
 
 export { renderLoadingTestDescription, renderLoadingTestFinished, renderLoadingTitle };

@@ -3,16 +3,16 @@ import { createTestHeader } from '../components';
 import { renderInitialMain, renderModal } from './';
 import { changeTestStopped, testData, clearTestData } from '../app';
 
-const onResetClick = () => {
+function onResetClick() {
   renderModal({
     title: 'Сбросить ответы',
     subtitle: 'Вы уверены что хотите сбросить ответы?',
     btnText: 'Сбросить',
     btnMethod: clearTestData,
   });
-};
+}
 
-export const renderTestFinished = () => {
+export function renderTestFinished() {
   changeTestStopped(true);
   if (testData) {
     const mainFinishedContentEl = document.createElement('div');
@@ -102,4 +102,4 @@ export const renderTestFinished = () => {
   } else {
     renderInitialMain();
   }
-};
+}

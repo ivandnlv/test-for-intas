@@ -1,21 +1,23 @@
 .aside {
-  width: 50px;
   background: hsl(204, 15%, 94%);
   height: 100%;
+  min-width: 50px;
+  max-width: 400px;
+  overflow-x: auto;
   &._opened {
-    min-width: 200px;
-    width: max-content;
+    min-width: 230px;
     .aside__list {
       display: block;
     }
     .aside__top {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
       position: relative;
       height: 51px;
       &-btn {
-        top: 50%;
-        transform: translateY(-50%);
         left: 18px;
-        position: absolute;
         margin: 0;
         width: 14px;
         overflow: hidden;
@@ -23,14 +25,15 @@
     }
   }
   ._hidden {
-    display: none;
+    display: none !important;
   }
   &__top {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 50px;
+    padding: 0 15px;
     &._opened {
       display: flex;
       align-items: center;
@@ -54,23 +57,26 @@
   &__content {
     padding: 20px 15px;
     width: 100%;
-    max-width: 200px;
   }
   &__list {
     display: none;
     list-style-type: none;
     &-item {
-      display: grid;
-      grid-template-columns: 7px 1fr;
-      gap: 11px;
+      position: relative;
+      display: flex;
       align-items: center;
       cursor: pointer;
-      padding: 2px 0 2px 15px;
       border-radius: 3px;
       margin-top: 6px;
+      padding-left: 22px;
       transition: color 0.2s ease-in-out, background 0.2s ease-in-out;
+      margin-bottom: 10px;
       &::before {
         content: '';
+        position: absolute;
+        top: 50%;
+        left: 5px;
+        transform: translateY(-50%);
         display: block;
         width: 7px;
         height: 7px;

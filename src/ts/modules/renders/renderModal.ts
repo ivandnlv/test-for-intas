@@ -5,7 +5,7 @@ interface IRenderModalOptions {
   btnMethod: () => void;
 }
 
-export const renderModal = ({ title, subtitle, btnText, btnMethod }: IRenderModalOptions) => {
+export function renderModal({ title, subtitle, btnText, btnMethod }: IRenderModalOptions) {
   const modalEl = document.createElement('div');
   modalEl.classList.add('modal');
   modalEl.innerHTML = `
@@ -38,4 +38,4 @@ export const renderModal = ({ title, subtitle, btnText, btnMethod }: IRenderModa
   }
 
   document.body.prepend(modalEl);
-};
+}

@@ -1,7 +1,7 @@
 import { mainEl } from '../../index';
 import { clearTitles, changeTestData, changeTestStopped, changeTimer } from '../app';
 
-export const renderInitialMain = () => {
+export function renderInitialMain() {
   changeTimer('00:00:00');
   changeTestStopped(true);
   changeTestData(null);
@@ -17,4 +17,4 @@ export const renderInitialMain = () => {
             </div>
     `;
   }
-};
+}

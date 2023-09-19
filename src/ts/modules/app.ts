@@ -1,6 +1,6 @@
 import { asideChange } from '..';
 import { ITestFormElements, TestQuestion } from '../types';
-import { test, data, testNames, fetchTestById } from './getters';
+import { test, data, testNames, fetchTestById } from './queries';
 
 import {
   renderLoadingTestDescription,
@@ -35,25 +35,27 @@ let testStopped = true;
 
 let testData: TestQuestion[] | null = null;
 
-const changeTimer = (value: typeof timer) => {
+function changeTimer(value: typeof timer) {
   timer = value;
-};
+}
 
-const changeTestData = (value: typeof testData) => {
+function changeTestData(value: typeof testData) {
   testData = value;
-};
+}
 
-const changeTestStopped = (value: typeof testStopped) => {
+function changeTestStopped(value: typeof testStopped) {
   testStopped = value;
-};
+}
 
-const changeTestLoading = (value: typeof testLoading) => (testLoading = value);
+function changeTestLoading(value: typeof testLoading) {
+  testLoading = value;
+}
 
-const changeIsMobile = (value: typeof isMobile) => {
+function changeIsMobile(value: typeof isMobile) {
   isMobile = value;
-};
+}
 
-const onFormSubmit = (e: SubmitEvent, form: HTMLFormElement) => {
+function onFormSubmit(e: SubmitEvent, form: HTMLFormElement) {
   e.preventDefault();
 
   let questionsArr: TestQuestion[] = [];
@@ -74,16 +76,16 @@ const onFormSubmit = (e: SubmitEvent, form: HTMLFormElement) => {
     testData = questionsArr;
     renderTestFinished();
   }
-};
+}
 
-const onFormReset = (form: HTMLFormElement, formCount: HTMLSpanElement) => {
+function onFormReset(form: HTMLFormElement, formCount: HTMLSpanElement) {
   form.reset();
   if (test) {
     formCount.textContent = `0/${test.item.questions.length}`;
   }
-};
+}
 
-const onTimerStart = (timerElem: HTMLSpanElement) => {
+function onTimerStart(timerElem: HTMLSpanElement) {
   const timerArr = timer.split(':');
   const seconds = timerArr[2];
   const minutes = timerArr[1];
@@ -100,9 +102,9 @@ const onTimerStart = (timerElem: HTMLSpanElement) => {
   timer = timerArr.join(':');
 
   timerElem.textContent = timer;
-};
+}
 
-const onFormChange = (form: HTMLFormElement, formCount: HTMLSpanElement) => {
+function onFormChange(form: HTMLFormElement, formCount: HTMLSpanElement) {
   let formValues: string[] = [];
   if (test) {
     test.item.questions.forEach((_, i) => {
@@ -115,34 +117,34 @@ const onFormChange = (form: HTMLFormElement, formCount: HTMLSpanElement) => {
     });
     formCount.textContent = `${formValues.length}/${test.item.questions.length}`;
   }
-};
+}
 
-const onFormClose = () => {
+function onFormClose() {
   renderModal({
     title: 'Вы уверены что хотите выйти',
     subtitle: 'Все результаты будут сброшены',
     btnText: 'Выход',
     btnMethod: renderInitialMain,
   });
-};
+}
 
-const clearTestData = () => {
+function clearTestData() {
   if (testData && test) {
     localStorage.removeItem(`${test.id}`);
     testData = null;
     timer = '00:00:00';
     renderTest();
   }
-};
+}
 
-export const clearTitles = () => {
+export function clearTitles() {
   const titleElements = document.querySelectorAll('.aside__list-item');
   if (titleElements) {
     titleElements.forEach((title) => title.classList.remove('_active'));
   }
-};
+}
 
-const addListenersToTitles = () => {
+function addListenersToTitles() {
   const titleElements: NodeListOf<HTMLDivElement> = document.querySelectorAll('.aside__list-item');
   if (titleElements) {
     titleElements.forEach((title: HTMLDivElement) => {
@@ -156,9 +158,9 @@ const addListenersToTitles = () => {
       });
     });
   }
-};
+}
 
-const onTitleClick = async (id: string) => {
+async function onTitleClick(id: string) {
   if (!testLoading) {
     if (isMobile) asideChange();
     const localTest = localStorage.getItem(`${id}`);
@@ -174,7 +176,7 @@ const onTitleClick = async (id: string) => {
       renderTestDescription();
     }
   }
-};
+}
 
 export {
   mobileWidth,

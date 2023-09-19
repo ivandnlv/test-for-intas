@@ -1,5 +1,5 @@
 import { renderInitialMain } from './modules/renders';
-import { fetchAllData, testNames } from './modules/getters';
+import { fetchAllData, testNames } from './modules/queries';
 
 import '../scss/index.scss';
 
@@ -22,7 +22,7 @@ asideBtnsEl.forEach((btn) => {
   });
 });
 
-const asideChange = () => {
+function asideChange() {
   asideTops.forEach((asideTop) => {
     if (asideTop.classList.contains('_hidden')) {
       asideTop.classList.remove('_hidden');
@@ -38,6 +38,6 @@ const asideChange = () => {
       fetchAllData();
     }
   }
-};
+}
 
 export { asideChange, mainEl };

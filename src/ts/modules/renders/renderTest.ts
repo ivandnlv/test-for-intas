@@ -11,11 +11,11 @@ import { createTestHeader } from '../components';
 
 const wrapperMaxHeight = 60;
 
-export const renderTest = () => {
+export function renderTest() {
   // Функция проверки на то помещаются ли все варианты ответа в одну строку,
   // если нет, то добавляем flex-direction: 'column', если да то обратно 'row'
 
-  const changeQuestionWrapperFlexDirection = () => {
+  function changeQuestionWrapperFlexDirection() {
     const questionItemEls: NodeListOf<HTMLDivElement> | null = document.querySelectorAll(
       '.main-started__form-question__wrapper',
     );
@@ -32,7 +32,7 @@ export const renderTest = () => {
         }
       });
     }
-  };
+  }
 
   window.addEventListener('resize', changeQuestionWrapperFlexDirection);
 
@@ -101,4 +101,4 @@ export const renderTest = () => {
   }
 
   changeQuestionWrapperFlexDirection();
-};
+}

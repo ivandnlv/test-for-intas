@@ -6,13 +6,13 @@ export let data: Data | null = null;
 export let testNames: string[] | null = null;
 export let test: ITest | null = null;
 
-const url = 'https://64bf6c1e5ee688b6250d63ba.mockapi.io/tests/items';
+const URL = 'https://64bf6c1e5ee688b6250d63ba.mockapi.io/tests/items';
 
-export const fetchAllData = async () => {
+export async function fetchAllData() {
   try {
     renderLoadingTitle();
     changeTestLoading(true);
-    const items: Data = await fetch(url).then((items) => items.json());
+    const items: Data = await fetch(URL).then((items) => items.json());
 
     if (items) {
       data = items;
@@ -25,11 +25,11 @@ export const fetchAllData = async () => {
   } finally {
     changeTestLoading(false);
   }
-};
+}
 
-export const fetchTestById = async (id: string) => {
+export async function fetchTestById(id: string) {
   try {
-    const item: ITest = await fetch(`${url}/${id}`).then((item) => {
+    const item: ITest = await fetch(`${URL}/${id}`).then((item) => {
       return item.json();
     });
 
@@ -39,4 +39,4 @@ export const fetchTestById = async (id: string) => {
   } catch (error) {
     console.log('Произошла ошибка!', error);
   }
-};
+}

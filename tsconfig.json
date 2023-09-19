@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES5",
+    "downlevelIteration": true,
     "outDir": "./dist/js",
     "rootDir": "./src/ts",
     "module": "commonjs",

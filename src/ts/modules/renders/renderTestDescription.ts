@@ -2,7 +2,7 @@ import { mainEl } from '../..';
 import { changeTimer, changeTestStopped, test } from '../app';
 import { renderTest, renderInitialMain } from './';
 
-export const renderTestDescription = () => {
+export function renderTestDescription() {
   changeTimer('00:00:00');
   changeTestStopped(true);
   if (test) {
@@ -41,4 +41,4 @@ export const renderTestDescription = () => {
       mainEl.append(testEl);
     }
   }
-};
+}

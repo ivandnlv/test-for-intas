@@ -10,7 +10,7 @@ const closeElIcon = '<i class="fa-solid fa-square-xmark fa-xl"></i>';
 
 const startHeaderClientWidth = document.body.clientWidth;
 
-const changeResetEl = (width: number, resetEl: HTMLSpanElement) => {
+function changeResetEl(width: number, resetEl: HTMLSpanElement) {
   if (width <= mobileWidth) {
     if (resetEl) {
       resetEl.innerHTML = resetElIcon;
@@ -21,7 +21,7 @@ const changeResetEl = (width: number, resetEl: HTMLSpanElement) => {
       resetEl.textContent = resetTextContent;
     }
   }
-};
+}
 
 window.addEventListener('resize', () => {
   const targetElement = document.body;
@@ -35,7 +35,7 @@ window.addEventListener('resize', () => {
   }
 });
 
-export const createTestHeader = (): HTMLDivElement => {
+export function createTestHeader(): HTMLDivElement {
   // Test Header
   const testHeader = document.createElement('div');
   testHeader.classList.add('main__header');
@@ -108,4 +108,4 @@ export const createTestHeader = (): HTMLDivElement => {
   }
 
   return testHeader;
-};
+}

@@ -3,11 +3,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: './src/ts/index.ts',
+  entry: ['@babel/polyfill', './src/ts/index.ts'],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'public'),
   },
+  target: ['web', 'es5'],
   resolve: {
     extensions: ['.ts', '.js', '.scss'],
   },
@@ -40,6 +41,26 @@ module.exports = {
             },
           },
         ],
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  targets: {
+                    ie: '11',
+                  },
+                },
+              ],
+            ],
+            plugins: ['@babel/plugin-transform-arrow-functions'],
+          },
+        },
       },
     ],
   },

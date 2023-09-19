@@ -1,6 +1,6 @@
 import { addListenersToTitles, testNames, data } from '../app';
 
-export const renderTitles = () => {
+export function renderTitles() {
   const titlesContainer = document.querySelector('.aside__list');
   if (titlesContainer && testNames) {
     titlesContainer.innerHTML = '';
@@ -16,4 +16,4 @@ export const renderTitles = () => {
       }
     });
   }
-};
+}

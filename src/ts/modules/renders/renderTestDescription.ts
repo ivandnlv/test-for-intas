@@ -7,7 +7,8 @@ export function renderTestDescription() {
   changeTestStopped(true);
   if (test) {
     const testEl = document.createElement('div');
-    testEl.classList.add('main__wrapper', 'main-selected');
+    testEl.classList.add('main__wrapper');
+    testEl.classList.add('main-selected');
     testEl.innerHTML = `
       <header class="main__header">
               <span class="main__header-subtitle">Описание</span>
@@ -23,22 +24,26 @@ export function renderTestDescription() {
     const btnsContainerEl = document.createElement('div');
     btnsContainerEl.classList.add('main-selected__test-btns');
     const startBtnEl = document.createElement('button');
-    startBtnEl.classList.add('btn', 'main-selected__test-btn');
+    startBtnEl.classList.add('btn');
+    startBtnEl.classList.add('main-selected__test-btn');
     startBtnEl.textContent = 'Начать';
     const closeBtnEl = document.createElement('button');
-    closeBtnEl.classList.add('btn', 'outlined', 'main-selected__test-btn');
+    closeBtnEl.classList.add('btn');
+    closeBtnEl.classList.add('outlined');
+    closeBtnEl.classList.add('main-selected__test-btn');
     closeBtnEl.textContent = 'Отмена';
 
     startBtnEl.addEventListener('click', renderTest);
     closeBtnEl.addEventListener('click', renderInitialMain);
 
-    btnsContainerEl.append(startBtnEl, closeBtnEl);
+    btnsContainerEl.appendChild(startBtnEl);
+    btnsContainerEl.appendChild(closeBtnEl);
 
-    if (testContainerEl) testContainerEl.append(btnsContainerEl);
+    if (testContainerEl) testContainerEl.appendChild(btnsContainerEl);
 
     if (mainEl) {
       mainEl.innerHTML = '';
-      mainEl.append(testEl);
+      mainEl.appendChild(testEl);
     }
   }
 }

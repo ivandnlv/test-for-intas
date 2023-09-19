@@ -11,7 +11,7 @@ export function renderTitles() {
         title.classList.add('aside__list-item');
         title.dataset.id = data[i].id;
         title.textContent = name;
-        titlesContainer.append(title);
+        titlesContainer.appendChild(title);
         if (i === testNames.length - 1) addListenersToTitles();
       }
     });

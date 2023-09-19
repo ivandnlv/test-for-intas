@@ -1,3 +1,4 @@
+import axios, { AxiosResponse } from 'axios';
 import { renderTitles, renderLoadingTitle, renderErrorTitle } from './renders';
 import { changeTestLoading } from './app';
 import { Data, ITest } from '../types';
@@ -12,10 +13,10 @@ export async function fetchAllData() {
   try {
     renderLoadingTitle();
     changeTestLoading(true);
-    const items: Data = await fetch(URL).then((items) => items.json());
+    const items: AxiosResponse<Data> = await axios.get(URL);
 
-    if (items) {
-      data = items;
+    if (items.data) {
+      data = items.data;
       testNames = data.map((item) => item.item.name);
       renderTitles();
     }
@@ -29,12 +30,10 @@ export async function fetchAllData() {
 
 export async function fetchTestById(id: string) {
   try {
-    const item: ITest = await fetch(`${URL}/${id}`).then((item) => {
-      return item.json();
-    });
+    const item: AxiosResponse<ITest> = await axios.get(`${URL}/${id}`);
 
-    if (item) {
-      test = item;
+    if (item.data) {
+      test = item.data;
     }
   } catch (error) {
     console.log('Произошла ошибка!', error);

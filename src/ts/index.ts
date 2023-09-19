@@ -8,7 +8,7 @@ mainEl.classList.add('main');
 
 const wrapperEl = document.querySelector('.wrapper');
 
-if (wrapperEl) wrapperEl.append(mainEl);
+if (wrapperEl) wrapperEl.appendChild(mainEl);
 
 window.addEventListener('DOMContentLoaded', renderInitialMain);
 

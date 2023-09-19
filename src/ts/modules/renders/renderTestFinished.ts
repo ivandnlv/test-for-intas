@@ -24,7 +24,8 @@ export function renderTestFinished() {
     const allQuestionsCount = testData.length;
 
     const mainFinishedEl = document.createElement('div');
-    mainFinishedEl.classList.add('main__wrapper', 'main-finished');
+    mainFinishedEl.classList.add('main__wrapper');
+    mainFinishedEl.classList.add('main-finished');
 
     const mainFinishedHeader = createTestHeader();
 
@@ -45,7 +46,8 @@ export function renderTestFinished() {
     const dividerEl = document.createElement('div');
     dividerEl.classList.add('divider');
 
-    mainFinishedEl.append(mainFinishedHeader, dividerEl);
+    mainFinishedEl.appendChild(mainFinishedHeader);
+    mainFinishedEl.appendChild(dividerEl);
 
     const mainFinishedContentTopEl = document.createElement('div');
     mainFinishedContentTopEl.classList.add('main-finished__content-top');
@@ -74,30 +76,32 @@ export function renderTestFinished() {
             }</span>
         </div>
       `;
-      mainFinishedListEl.append(mainFinishedListItemEl);
+      mainFinishedListEl.appendChild(mainFinishedListItemEl);
     });
 
-    mainFinishedContentEl.append(
-      mainFinishedContentTopEl,
-      mainFinishedContentTitleEl,
-      mainFinishedListEl,
-    );
+    mainFinishedContentEl.appendChild(mainFinishedContentTopEl);
+    mainFinishedContentEl.appendChild(mainFinishedContentTitleEl);
+    mainFinishedContentEl.appendChild(mainFinishedListEl);
 
     const dividerEl2 = document.createElement('div');
     dividerEl2.classList.add('divider');
 
-    mainFinishedEl.append(mainFinishedContentEl, dividerEl2);
+    mainFinishedEl.appendChild(mainFinishedContentEl);
+    mainFinishedEl.appendChild(dividerEl2);
 
     const repeatBtn = document.createElement('button');
-    repeatBtn.classList.add('btn', 'red', 'outlined', 'main-finished__btn');
+    repeatBtn.classList.add('btn');
+    repeatBtn.classList.add('red');
+    repeatBtn.classList.add('outlined');
+    repeatBtn.classList.add('main-finished__btn');
     repeatBtn.textContent = 'Пройти тест еще раз';
     repeatBtn.addEventListener('click', onResetClick);
 
-    mainFinishedEl.append(repeatBtn);
+    mainFinishedEl.appendChild(repeatBtn);
 
     if (mainEl) {
       mainEl.innerHTML = '';
-      mainEl.append(mainFinishedEl);
+      mainEl.appendChild(mainFinishedEl);
     }
   } else {
     renderInitialMain();

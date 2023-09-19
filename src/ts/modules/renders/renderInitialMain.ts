@@ -8,13 +8,11 @@ export function renderInitialMain() {
   clearTitles();
   const mainText = 'Выберите тест из списка';
   const mainDescription = 'Для этого кликните на меню в левом верхнем углу';
-  if (mainEl) {
-    mainEl.innerHTML = '';
-    mainEl.innerHTML = `
+  mainEl.innerHTML = '';
+  mainEl.innerHTML = `
             <div class="main__wrapper main-initial">
               <span class="main-intital__text">${mainText}</span>
               <p class="main-initial__descr">${mainDescription}</p>
             </div>
     `;
-  }
 }

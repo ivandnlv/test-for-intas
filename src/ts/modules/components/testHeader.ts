@@ -28,7 +28,7 @@ window.addEventListener('resize', () => {
 
   const newWidth = targetElement.clientWidth;
 
-  const resetEl = targetElement.querySelector('#resetTest') as HTMLSpanElement;
+  const resetEl: HTMLSpanElement | null = targetElement.querySelector('#resetTest');
 
   if (resetEl) {
     changeResetEl(newWidth, resetEl);
@@ -54,7 +54,8 @@ export function createTestHeader(): HTMLDivElement {
     }
 
     const testCloseMobile = document.createElement('span');
-    testCloseMobile.classList.add('main__header-subtitle', '_hidden');
+    testCloseMobile.classList.add('main__header-subtitle');
+    testCloseMobile.classList.add('_hidden');
     testCloseMobile.id = 'testClose';
     testCloseMobile.innerHTML = closeElIcon;
     if (!testData) {
@@ -102,9 +103,14 @@ export function createTestHeader(): HTMLDivElement {
         }
       }, 1000);
     }
+    testFuncWrapper.appendChild(testCloseMobile);
+    testFuncWrapper.appendChild(testResetBtn);
+    testFuncWrapper.appendChild(testCounter);
+    testFuncWrapper.appendChild(testTimer);
 
-    testFuncWrapper.append(testCloseMobile, testResetBtn, testCounter, testTimer);
-    testHeader.append(testClose, testTitle, testFuncWrapper);
+    testHeader.appendChild(testClose);
+    testHeader.appendChild(testTitle);
+    testHeader.appendChild(testFuncWrapper);
   }
 
   return testHeader;

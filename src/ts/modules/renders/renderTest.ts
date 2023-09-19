@@ -39,10 +39,11 @@ export function renderTest() {
   changeTimer('00:00:00');
   changeTestStopped(false);
   const testEl = document.createElement('div');
-  testEl.classList.add('main__wrapper', 'main-started');
+  testEl.classList.add('main__wrapper');
+  testEl.classList.add('main-started');
   const testHeader = createTestHeader();
 
-  testEl.append(testHeader);
+  testEl.appendChild(testHeader);
 
   const testResetBtn = testHeader.querySelector('#resetTest');
   const testCounter = testHeader.querySelector('#testCounter') as HTMLSpanElement;
@@ -73,31 +74,34 @@ export function renderTest() {
           <input type="radio" value="${i}" name="question${questionItem.id}" id="${id}" />
           <label for="${id}">${variant}</label>
         `;
-        questionItemWrapperEl.append(variantEl);
+        questionItemWrapperEl.appendChild(variantEl);
       });
       questionItemEl.innerHTML = `
        <legend class="main-started__form-question__title">${questionItem.id}. ${questionItem.text}</legend>
       `;
 
-      questionItemEl.append(questionItemWrapperEl);
-      testForm.append(questionItemEl);
+      questionItemEl.appendChild(questionItemWrapperEl);
+      testForm.appendChild(questionItemEl);
     });
   }
   const dividerEl = document.createElement('div');
   dividerEl.classList.add('divider');
   const btnEl = document.createElement('button');
-  btnEl.classList.add('btn', 'outlined', 'red');
+  btnEl.classList.add('btn');
+  btnEl.classList.add('outlined');
+  btnEl.classList.add('red');
   btnEl.textContent = 'Завершить';
-  testForm.append(dividerEl, btnEl);
-  formContainer.append(testForm);
-  testEl.append(formContainer);
+  testForm.appendChild(dividerEl);
+  testForm.appendChild(btnEl);
+  formContainer.appendChild(testForm);
+  testEl.appendChild(formContainer);
 
   testForm.addEventListener('submit', (e) => onFormSubmit(e, testForm));
   testForm.addEventListener('change', () => onFormChange(testForm, testCounter));
 
   if (mainEl) {
     mainEl.innerHTML = '';
-    mainEl.append(testEl);
+    mainEl.appendChild(testEl);
   }
 
   changeQuestionWrapperFlexDirection();

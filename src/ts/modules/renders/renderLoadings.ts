@@ -9,7 +9,8 @@ function renderLoadingTitle() {
 
 function renderLoadingTestDescription() {
   const testEl = document.createElement('div');
-  testEl.classList.add('main__wrapper', 'main-selected');
+  testEl.classList.add('main__wrapper');
+  testEl.classList.add('main-selected');
   testEl.innerHTML = `
 		<header class="main__header">
             <span class="main__header-subtitle">Описание</span>
@@ -23,13 +24,14 @@ function renderLoadingTestDescription() {
 	`;
   if (mainEl) {
     mainEl.innerHTML = '';
-    mainEl.append(testEl);
+    mainEl.appendChild(testEl);
   }
 }
 
 function renderLoadingTestFinished() {
   const testFinished = document.createElement('div');
-  testFinished.classList.add('main__wrapper', 'main-finished');
+  testFinished.classList.add('main__wrapper');
+  testFinished.classList.add('main-finished');
   testFinished.innerHTML = `
 
   <header class="main__header">
@@ -44,7 +46,7 @@ function renderLoadingTestFinished() {
   `;
   if (mainEl) {
     mainEl.innerHTML = '';
-    mainEl.append(testFinished);
+    mainEl.appendChild(testFinished);
   }
 }
 

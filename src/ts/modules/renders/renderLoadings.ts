@@ -34,15 +34,15 @@ function renderLoadingTestFinished() {
   testFinished.classList.add('main-finished');
   testFinished.innerHTML = `
 
-  <header class="main__header">
-            <h1 class="main__header-title">Загрузка...</h1>
-          </header>
-          <div class="divider"></div>
-          <div class="main-finished__content">
-            <div class="main-finished__content-top">
-              <h2>Загрузка результатов...</h2>
-            </div>
-          </div>
+    <header class="main__header">
+      <h1 class="main__header-title">Загрузка...</h1>
+    </header>
+    <div class="divider"></div>
+    <div class="main-finished__content">
+      <div class="main-finished__content-top">
+        <h2>Загрузка результатов...</h2>
+      </div>
+    </div>
   `;
   if (mainEl) {
     mainEl.innerHTML = '';

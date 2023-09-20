@@ -10,9 +10,9 @@ export function renderInitialMain() {
   const mainDescription = 'Для этого кликните на меню в левом верхнем углу';
   mainEl.innerHTML = '';
   mainEl.innerHTML = `
-            <div class="main__wrapper main-initial">
-              <span class="main-intital__text">${mainText}</span>
-              <p class="main-initial__descr">${mainDescription}</p>
-            </div>
+    <div class="main__wrapper main-initial">
+      <span class="main-intital__text">${mainText}</span>
+      <p class="main-initial__descr">${mainDescription}</p>
+    </div>
     `;
 }

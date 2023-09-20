@@ -68,12 +68,13 @@ export function renderTestFinished() {
       mainFinishedListItemEl.innerHTML = `
         <span class="main-finished__list-item-title">${i + 1}. ${question.questionText}</span>
         <div class="main-finished__list-item-answers">
-            <span>Правильный ответ: ${question.questionTrueValue}</span>
-            <span>Вы ответили: ${
-              question.questionValue && question.questionValue.length
-                ? question.questionValue
-                : 'не ответили'
-            }</span>
+          <span>Правильный ответ: ${question.questionTrueValue}</span>
+          <span>Вы ответили: ${
+            question.questionValue && question.questionValue.length
+              ? question.questionValue
+              : 'не ответили'
+          }
+          </span>
         </div>
       `;
       mainFinishedListEl.appendChild(mainFinishedListItemEl);

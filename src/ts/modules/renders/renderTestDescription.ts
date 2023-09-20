@@ -11,13 +11,13 @@ export function renderTestDescription() {
     testEl.classList.add('main-selected');
     testEl.innerHTML = `
       <header class="main__header">
-              <span class="main__header-subtitle">Описание</span>
-          </header>
-          <div class="divider main-selected__divider"></div>
-          <div class="main-selected__test">
-            <p class="main-selected__test-description">
-                ${test.item.description}
-              </p>
+        <span class="main__header-subtitle">Описание</span>
+      </header>
+      <div class="divider main-selected__divider"></div>
+      <div class="main-selected__test">
+        <p class="main-selected__test-description">
+          ${test.item.description}
+        </p>
       </div>
     `;
     const testContainerEl = testEl.querySelector('.main-selected__test');

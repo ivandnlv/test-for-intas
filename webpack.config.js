@@ -8,7 +8,6 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'public'),
   },
-  target: ['web', 'es5'],
   resolve: {
     extensions: ['.ts', '.js', '.scss'],
   },
@@ -45,6 +44,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
+        include: path.resolve(__dirname, 'public'),
         use: {
           loader: 'babel-loader',
           options: {
@@ -74,7 +74,7 @@ module.exports = {
   ],
   devServer: {
     static: {
-      directory: path.join(__dirname, 'dist'),
+      directory: path.join(__dirname, 'public'),
     },
     watchFiles: ['src/**/*.html', 'src/**/*.scss'],
     port: 3000,

@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES5",
-    "downlevelIteration": true,
-    "outDir": "./dist/js",
+    "outDir": "./public/js",
     "rootDir": "./src/ts",
     "module": "commonjs",
     "strict": true
